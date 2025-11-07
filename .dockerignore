@@ -1,0 +1,67 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# Documentation
+*.md
+docs/
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Helm
+helm/
+
+# Data files
+*.csv
+*.parquet
+*.json
+*.zip
+*.gz
+*.mat
+*.pdf
+*.ods
+*.xls
+
+# Other
+*.pipeline
+*.jar
+*.tar.gz
+*.config
+images/
+data/
+tools/
+coursera_*/
+component-library/
+bd225/
+notebooks/
+gpu/
+edx_tf/
