@@ -1,0 +1,8 @@
+# PDF Processing Libraries
+pypdf>=3.0.0  # Primary PDF extraction library
+PyMuPDF>=1.23.0  # Fallback for scanned PDFs and better OCR support
+
+# Testing Dependencies
+pytest>=7.0.0
+reportlab>=4.0.0  # For generating test PDF fixtures
+Pillow>=10.0.0  # For image-based PDF fixtures
