@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "api-collection-001",
+		"name": "API Collection",
+		"description": "Collection covering document upload, chat, history, and metrics endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Documents",
+			"item": [
+				{
+					"name": "Upload Document (Multipart)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "your-api-key-here",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"description": "Document file to upload"
+								},
+								{
+									"key": "metadata",
+									"value": "{\"title\": \"Example Document\", \"category\": \"general\", \"tags\": [\"example\", \"test\"]}",
+									"type": "text",
+									"description": "Optional metadata JSON"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/documents",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"documents"
+							]
+						},
+						"description": "Upload a document using multipart/form-data. Supports various file formats."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Send Chat Query",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "your-api-key-here",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"session_id\": \"session-12345\",\n  \"message\": \"What is the main topic of the uploaded documents?\",\n  \"context\": {\n    \"document_ids\": [\"doc-001\", \"doc-002\"],\n    \"include_history\": true\n  },\n  \"options\": {\n    \"temperature\": 0.7,\n    \"max_tokens\": 500\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/chat/query",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"chat",
+								"query"
+							]
+						},
+						"description": "Send a chat query to the AI assistant. Requires a session_id and message."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "your-api-key-here",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/chat/history/:session_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"chat",
+								"history",
+								":session_id"
+							],
+							"variable": [
+								{
+									"key": "session_id",
+									"value": "session-12345",
+									"description": "The session ID to retrieve history for"
+								}
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "50",
+									"description": "Maximum number of messages to return",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"description": "Offset for pagination",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve chat history for a specific session. Supports pagination via limit and offset query parameters."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metrics",
+			"item": [
+				{
+					"name": "Get Metrics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-API-Key",
+								"value": "your-api-key-here",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/metrics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"metrics"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": "json",
+									"description": "Response format: json or prometheus",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve system metrics. Supports both JSON and Prometheus formats."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api.example.com",
+			"type": "string"
+		}
+	]
+}
