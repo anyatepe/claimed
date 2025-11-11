@@ -77,3 +77,67 @@ To learn more on how this library works in practice, please have a look at the f
 
 [covidata] Joseph Paul Cohen et al. *COVID-19 Image Data Collection: Prospective Predictions Are the Future*, arXiv:2006.11988, 2020
 
+## Docker Development Environment
+
+This project includes a Dockerized development environment with multi-stage builds and a non-root user for security.
+
+### Prerequisites
+
+- Docker Engine 20.10+
+- Docker Compose 2.0+
+- Make (optional, for convenience commands)
+
+### Quick Start
+
+Start all services:
+```bash
+make up
+```
+
+This will start:
+- **API service** (FastAPI) on port 8000
+- **Redis** on port 6379
+- **LocalStack** (S3 emulator) on port 4566
+- **Chroma** (optional, vector database) on port 8001
+
+To include ChromaDB:
+```bash
+make up-chroma
+```
+
+### Running Tests
+
+Run tests using the tests network:
+```bash
+make test
+```
+
+This command runs tests in a container connected to the `tests` network, allowing tests to access all services (api, redis, chroma, localstack).
+
+### Other Commands
+
+- `make down` - Stop all services
+- `make down-volumes` - Stop services and remove volumes
+- `make build` - Rebuild the API image
+- `make logs` - View logs from all services
+- `make logs-api` - View API logs only
+- `make health` - Check service health status
+- `make clean` - Remove containers, volumes, and clean up
+
+### Services
+
+All services include healthchecks and are configured to wait for dependencies to be healthy before starting.
+
+- **API**: FastAPI application (http://localhost:8000)
+- **Redis**: In-memory data store with persistence
+- **Chroma**: Vector database (optional, use `make up-chroma` to enable)
+- **LocalStack**: AWS S3 emulator for local development
+
+### Dockerfile
+
+The Dockerfile uses a multi-stage build:
+1. **Builder stage**: Installs build dependencies and Python packages
+2. **Runtime stage**: Creates a non-root user and copies only necessary files
+
+The application runs as user `appuser` (UID 1000) for security.
+
