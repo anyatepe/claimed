@@ -5,3 +5,21 @@ data/*
 *.log
 *.swp
 HMP_Dataset
+
+# Celery/Job related
+.env
+.env.local
+*.pyc
+__pycache__/
+.pytest_cache/
+.coverage
+htmlcov/
+/tmp/job_results/
+job_results/
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.iml
