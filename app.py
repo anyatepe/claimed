@@ -11,6 +11,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
+
 # Request/Response Models for /v1/summarize
 class RetrievalConfig(BaseModel):
     """Retrieval configuration for summarization."""
@@ -22,6 +23,7 @@ class RetrievalConfig(BaseModel):
         }
     )
     k: int = Field(..., description="Number of retrieval results", gt=0, examples=[5])
+
 
 class SummarizeRequest(BaseModel):
     """Request model for summarization endpoint."""
@@ -42,6 +44,7 @@ class SummarizeRequest(BaseModel):
     max_tokens: Optional[int] = Field(None, description="Maximum tokens in summary", gt=0)
     style: Literal["bullet", "abstract"] = Field("abstract", description="Summary style")
 
+
 class SummarizeResponse(BaseModel):
     """Response model for summarization endpoint."""
     model_config = ConfigDict(
@@ -52,6 +55,7 @@ class SummarizeResponse(BaseModel):
         }
     )
     summary: str = Field(..., description="Generated summary")
+
 
 # Request/Response Models for /v1/classify
 class ClassifyRequest(BaseModel):
@@ -97,6 +101,7 @@ class ClassifyResponse(BaseModel):
     labels: list[str] = Field(..., description="Predicted labels")
     confidence: dict[str, float] = Field(..., description="Confidence scores for each label")
 
+
 @app.post("/v1/summarize", response_model=SummarizeResponse)
 async def summarize(request: SummarizeRequest) -> SummarizeResponse:
     """
@@ -111,6 +116,7 @@ async def summarize(request: SummarizeRequest) -> SummarizeResponse:
     summary_text = request.input
     
     return SummarizeResponse(summary=summary_text)
+
 
 @app.post("/v1/classify", response_model=ClassifyResponse)
 async def classify(request: ClassifyRequest) -> ClassifyResponse:
@@ -134,6 +140,7 @@ async def classify(request: ClassifyRequest) -> ClassifyResponse:
             confidence_scores[label] = 0.1 / (len(request.labels) - 1) if len(request.labels) > 1 else 0.0
     
     return ClassifyResponse(labels=predicted_labels, confidence=confidence_scores)
+
 
 @app.get("/health")
 async def health():
